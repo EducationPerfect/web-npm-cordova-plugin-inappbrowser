@@ -1238,7 +1238,10 @@ BOOL isExiting = FALSE;
     
 - (void)webView:(WKWebView*)theWebView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(nonnull NSError *)error
 {
-    [self webView:theWebView failedNavigation:@"didFailProvisionalNavigation" withError:error];
+    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102)
+        return;
+    else
+        [self webView:theWebView failedNavigation:@"didFailProvisionalNavigation" withError:error];
 }
 
 #pragma mark WKScriptMessageHandler delegate
